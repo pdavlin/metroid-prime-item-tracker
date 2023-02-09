@@ -1,2 +1,2 @@
-docker build -t mp1-item-tracker .
+docker build -t prime-item-tracker .
 docker-compose up -d --remove-orphans --force-recreate

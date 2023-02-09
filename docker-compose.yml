@@ -1,16 +1,16 @@
 version: "3.4"
 services:
   app:
-    image: mp1-item-tracker:latest
+    image: prime-item-tracker:latest
     restart: unless-stopped
     networks:
       - traefik_public
     labels:
-      - "traefik.http.routers.prime1tracker.rule=Host(`prime1tracker.davlin.io`)"
+      - "traefik.http.routers.primetracker.rule=Host(`primetracker.davlin.io`)"
       - "traefik.docker.network=traefik_public"
-      - "traefik.http.services.prime1tracker.loadbalancer.server.port=3000"
-      - "traefik.http.routers.prime1tracker.entrypoints=https"
-      - "traefik.http.routers.prime1tracker.tls=true"
+      - "traefik.http.services.primetracker.loadbalancer.server.port=3000"
+      - "traefik.http.routers.primetracker.entrypoints=https"
+      - "traefik.http.routers.primetracker.tls=true"
 
 networks:
   traefik_public:

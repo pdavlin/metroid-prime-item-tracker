@@ -2,17 +2,35 @@ import { createContext, use, useContext, useEffect } from "react";
 import { Updater, useImmer } from "use-immer";
 
 export const initialState = {
-  collected: ["initial"],
-  energy_tank: 0,
-  missile: 0,
-  power_bomb_pack: 0,
+  prime1: {
+    collected: ["initial"],
+    energy_tank: 0,
+    missile: 0,
+    power_bomb_pack: 0,
+  },
+  prime3: {
+    collected: ["morph_ball"],
+    energy_tank: 0,
+    missile_launcher: 0,
+    ship_missile: 0,
+    energy_cell: 0,
+  }
 };
 
 type GlobalState = {
-  collected: string[];
-  energy_tank: number;
-  missile: number;
-  power_bomb_pack: number;
+  prime1: {
+    collected: string[];
+    energy_tank: number;
+    missile: number;
+    power_bomb_pack: number;
+  };
+  prime3: {
+    collected: string[];
+    energy_tank: number;
+    missile_launcher: number;
+    ship_missile: number;
+    energy_cell: number;
+  };
 };
 
 const GlobalStateContext = createContext(initialState);
@@ -21,19 +39,24 @@ const GlobalStateDispatchContext = createContext<
 >(undefined);
 
 export function GlobalStateProvider({ children, ...appProps }) {
-  let initialStateWithProps = JSON.parse(JSON.stringify(initialState));
   const [state, dispatch] = useImmer<GlobalState>(initialState);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const localState = localStorage.getItem("progress");
-      if (localState) {
+      const prime1State = localStorage.getItem("prime1");
+      if (prime1State) {
         dispatch((state) => {
-          Object.assign(state, JSON.parse(localState));
+          Object.assign(state.prime1, JSON.parse(prime1State));
+        });
+      }
+      const prime3State = localStorage.getItem("prime3");
+      if (prime3State) {
+        dispatch((state) => {
+          Object.assign(state.prime3, JSON.parse(prime3State));
         });
       }
     }
-  }, [])
+  }, []);
 
   return (
     <GlobalStateContext.Provider value={state}>

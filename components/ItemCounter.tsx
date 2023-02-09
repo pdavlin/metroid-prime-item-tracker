@@ -8,50 +8,48 @@ const inter = Inter({ subsets: ["latin"] });
 interface ItemCounterProps {
   itemName: string;
   maxNum: number;
+  game: number;
+  subtractable?: boolean;
+  customItemCalculation: (collected: number) => number;
 }
 
 const itemNameMap = new Map<string, string>([
   ["energy_tank", "Energy Tank"],
   ["missile", "Missile Expansion"],
   ["power_bomb_pack", "Power Bomb Expansion"],
+  ["missile_launcher", "Missile Expansion"],
+  ["ship_missile", "Ship Missile Expansion"],
+  ["energy_cell", "Energy Cell"],
 ]);
 
-const ItemCounter = ({ itemName, maxNum }: ItemCounterProps) => {
+const ItemCounter = ({
+  customItemCalculation,
+  game,
+  itemName,
+  maxNum,
+  subtractable = false
+}: ItemCounterProps) => {
   const [state, dispatch] = useGlobalState();
-  const [collected, setCollected] = useState(state[itemName]);
-
-  useEffect(() => {
-    if (typeof localStorage.getItem("progress") === "string") {
-      setCollected(
-        JSON.parse(localStorage.getItem("progress") as string)[itemName]
-      );
-    }
-  }, []);
+  const [collected, setCollected] = useState(state[`prime${game}`][itemName]);
 
   useEffect(() => {
     console.log(`${itemName} changed to ${state[itemName]}`);
-    setCollected(state[itemName]);
-  }, [state[itemName]]);
+    setCollected(state[`prime${game}`][itemName]);
+  }, [state[`prime${game}`][itemName]]);
 
   useEffect(() => {
     dispatch((state) => {
-      state[itemName] = collected;
+      state[`prime${game}`][itemName] = collected;
     });
   }, [collected]);
 
-  const calculateItemTotal = (itemName: string) => {
-    if (itemName === "missile") {
-      return state["missile"] * 5;
-    } else if (itemName === "power_bomb_pack") {
-      return state["power_bomb_pack"] * 1;
-    }
-  };
+  const calculateItemTotal = (collected, multiplier) => collected * multiplier;
 
   return (
     <div className={styles.countercontainer}>
       <img
         className={`${styles.mpitem} ${styles.collected}`}
-        src={`/icons/items/${itemName}.png`}
+        src={`/prime-${game}/${itemName}.png`}
         onClick={() => {
           collected < maxNum && setCollected(collected + 1);
         }}
@@ -62,9 +60,19 @@ const ItemCounter = ({ itemName, maxNum }: ItemCounterProps) => {
         </span>
         <span>
           {!itemName.includes("energy") &&
-            `(total: ${calculateItemTotal(itemName)})`}
+            `(total: ${customItemCalculation(collected)})`}
         </span>
       </div>
+      {subtractable && (
+        <button
+          className={`${inter.className} ${styles.subtractbutton}`}
+          onClick={() => {
+            collected > 0 && setCollected(collected - 1);
+          }}
+        >
+          Subtract
+        </button>
+      )}
     </div>
   );
 };
