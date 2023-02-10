@@ -103,7 +103,7 @@ export default function Home() {
         return (collected: number) =>
           collected * 5 +
           (state.prime3.collected.includes("ship_missile") ? 3 : 0);
-      default: 
+      default:
         return (collected: number) => collected;
     }
   };
@@ -142,10 +142,13 @@ export default function Home() {
             }}
             isHorizontal={(dimension as string)?.includes("horizontal")}
           />
-          <ExpansionCollection isHorizontal={(dimension as string)?.includes("horizontal")}>
+          <ExpansionCollection
+            isHorizontal={(dimension as string)?.includes("horizontal")}
+          >
             <h2 className={inter.className}>Expansions</h2>
             {expansions.map(({ name, max }) => (
               <ItemCounter
+                key={`mp3-expansion-${name}`}
                 itemName={name}
                 maxNum={max}
                 game={3}

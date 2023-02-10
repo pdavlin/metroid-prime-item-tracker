@@ -107,7 +107,7 @@ export default function Prime1Tracker() {
       </Head>
       <main className={styles.main}>
         <AllItems isHorizontal={(dimension as string)?.includes("horizontal")}>
-          <ArtifactContainer>
+          <ArtifactContainer isHorizontal={(dimension as string)?.includes("horizontal")}>
             <h2 className={inter.className}>Artifacts</h2>
             <ArtifactWrapper>
               {Object.entries(artifacts).map(
