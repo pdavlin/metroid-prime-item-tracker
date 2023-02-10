@@ -1,9 +1,18 @@
 import styled from "styled-components";
+import { ItemCollection } from "./CommonComponents";
 
-export const ArtifactContainer = styled.div`
-  position: relative;
-  width: 111px;
+export const ArtifactContainer = styled(ItemCollection)`
+  max-width: 240px;
+  h2 {
+    text-align: ${({ isHorizontal }) => (isHorizontal ? "center" : "left")};
+  }
+`;
+
+export const ArtifactWrapper = styled.div`
   height: 133px;
+  position: relative;
+  margin-top: 0.5rem;
+  width: 111px;
 `;
 
 export const Artifact = styled.div<{

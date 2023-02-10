@@ -1,7 +1,12 @@
-import styles from "@/styles/Home.module.css";
 import { Inter } from "@next/font/google";
 import { useEffect, useState } from "react";
 import useGlobalState from "../hooks/useGlobalState";
+import {
+  CounterContainer,
+  CounterLabel,
+  GameItem,
+  SubtractButton,
+} from "./styled/CommonComponents";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,10 +20,10 @@ interface ItemCounterProps {
 
 const itemNameMap = new Map<string, string>([
   ["energy_tank", "Energy Tank"],
-  ["missile", "Missile Expansion"],
-  ["power_bomb_pack", "Power Bomb Expansion"],
-  ["missile_launcher", "Missile Expansion"],
-  ["ship_missile", "Ship Missile Expansion"],
+  ["missile", "Missile"],
+  ["power_bomb_pack", "Power Bomb"],
+  ["missile_launcher", "Missile"],
+  ["ship_missile", "Ship Missile"],
   ["energy_cell", "Energy Cell"],
 ]);
 
@@ -27,7 +32,7 @@ const ItemCounter = ({
   game,
   itemName,
   maxNum,
-  subtractable = false
+  subtractable = false,
 }: ItemCounterProps) => {
   const [state, dispatch] = useGlobalState();
   const [collected, setCollected] = useState(state[`prime${game}`][itemName]);
@@ -43,18 +48,17 @@ const ItemCounter = ({
     });
   }, [collected]);
 
-  const calculateItemTotal = (collected, multiplier) => collected * multiplier;
 
   return (
-    <div className={styles.countercontainer}>
-      <img
-        className={`${styles.mpitem} ${styles.collected}`}
+    <CounterContainer>
+      <GameItem
+        collected={true}
         src={`/prime-${game}/${itemName}.png`}
         onClick={() => {
           collected < maxNum && setCollected(collected + 1);
         }}
       />
-      <div className={`${inter.className} ${styles.counterlabel}`}>
+      <CounterLabel className={inter.className}>
         <span>
           {itemNameMap.get(itemName)}: {collected}/{maxNum}{" "}
         </span>
@@ -62,18 +66,18 @@ const ItemCounter = ({
           {!itemName.includes("energy") &&
             `(total: ${customItemCalculation(collected)})`}
         </span>
-      </div>
+      </CounterLabel>
       {subtractable && (
-        <button
-          className={`${inter.className} ${styles.subtractbutton}`}
+        <SubtractButton
+          className={inter.className}
           onClick={() => {
             collected > 0 && setCollected(collected - 1);
           }}
         >
           Subtract
-        </button>
+        </SubtractButton>
       )}
-    </div>
+    </CounterContainer>
   );
 };
 export default ItemCounter;

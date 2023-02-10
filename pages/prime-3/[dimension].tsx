@@ -6,12 +6,14 @@ import useGlobalState, { initialState } from "@/hooks/useGlobalState";
 import { use, useEffect, useState } from "react";
 import {
   AllItems,
+  ExpansionCollection,
   GameItem,
   ItemCollection,
   ItemGrid,
 } from "../../components/styled/CommonComponents";
 import UpgradeGrid from "../../components/UpgradeGrid";
 import ResetButton from "../../components/ResetButton";
+import { useRouter } from "next/router";
 const inter = Inter({ subsets: ["latin"] });
 
 const upgrades = [
@@ -66,6 +68,9 @@ const expansions = [
 export default function Home() {
   const [state, dispatch] = useGlobalState();
   const [collected, setCollected] = useState(state.prime3.collected);
+  const router = useRouter();
+  const { dimension } = router.query;
+  console.log(dimension);
 
   useEffect(() => {
     if (typeof localStorage.getItem("prime3") === "string") {
@@ -111,7 +116,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <AllItems>
+        <AllItems isHorizontal={(dimension as string)?.includes("horizontal")}>
           <UpgradeGrid
             title="Normal Items"
             game={3}
@@ -122,19 +127,22 @@ export default function Home() {
                 setCollected(collected.filter((i) => i !== item));
               else setCollected([...collected, item]);
             }}
-          ></UpgradeGrid>
+            isHorizontal={(dimension as string)?.includes("horizontal")}
+          />
           <UpgradeGrid
             title="Hyper Items"
             game={3}
             upgrades={hypermodeUpgrades}
             collected={collected}
+            oneColumn={(dimension as string)?.includes("horizontal")}
             handleClick={(item) => {
               if (collected.includes(item))
                 setCollected(collected.filter((i) => i !== item));
               else setCollected([...collected, item]);
             }}
-          ></UpgradeGrid>
-          <ItemCollection>
+            isHorizontal={(dimension as string)?.includes("horizontal")}
+          />
+          <ExpansionCollection isHorizontal={(dimension as string)?.includes("horizontal")}>
             <h2 className={inter.className}>Expansions</h2>
             {expansions.map(({ name, max }) => (
               <ItemCounter
@@ -144,7 +152,7 @@ export default function Home() {
                 customItemCalculation={getExpansionCalculation(name)}
               ></ItemCounter>
             ))}
-          </ItemCollection>
+          </ExpansionCollection>
         </AllItems>
         <ResetButton
           game={3}

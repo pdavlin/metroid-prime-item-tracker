@@ -6,16 +6,17 @@ import useGlobalState, { initialState } from "@/hooks/useGlobalState";
 import { use, useEffect, useState } from "react";
 import {
   AllItems,
-  GameItem,
-  ItemCollection,
-  ItemGrid,
+  ExpansionCollection,
+
 } from "../../components/styled/CommonComponents";
 import {
   Artifact,
   ArtifactContainer,
+  ArtifactWrapper,
 } from "../../components/styled/Prime1Components";
 import ResetButton from "../../components/ResetButton";
 import UpgradeGrid from "../../components/UpgradeGrid";
+import { useRouter } from "next/router";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -73,6 +74,8 @@ const snakeToTitleCase = (str: string) => {
 export default function Prime1Tracker() {
   const [state, dispatch] = useGlobalState();
   const [collected, setCollected] = useState(state.prime1.collected);
+  const router = useRouter();
+  const { dimension } = router.query;
 
   useEffect(() => {
     if (typeof localStorage.getItem("prime1") === "string") {
@@ -103,10 +106,10 @@ export default function Prime1Tracker() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <AllItems>
-          <ItemCollection>
+        <AllItems isHorizontal={(dimension as string)?.includes("horizontal")}>
+          <ArtifactContainer>
             <h2 className={inter.className}>Artifacts</h2>
-            <ArtifactContainer>
+            <ArtifactWrapper>
               {Object.entries(artifacts).map(
                 ([artifactName, artifactLocations]) => (
                   <Artifact
@@ -125,8 +128,8 @@ export default function Prime1Tracker() {
                   />
                 )
               )}
-            </ArtifactContainer>
-          </ItemCollection>
+            </ArtifactWrapper>
+          </ArtifactContainer>
           <UpgradeGrid
             title="Items"
             game={1}
@@ -138,7 +141,7 @@ export default function Prime1Tracker() {
               else setCollected([...collected, item]);
             }}
           />
-          <ItemCollection>
+          <ExpansionCollection isHorizontal={(dimension as string)?.includes("horizontal")}>
             <h2 className={inter.className}>Expansions</h2>
             {expansions.map(({ name, max, multiplier }) => (
               <ItemCounter
@@ -149,7 +152,7 @@ export default function Prime1Tracker() {
                 customItemCalculation={(collected) => collected * multiplier}
               ></ItemCounter>
             ))}
-          </ItemCollection>
+          </ExpansionCollection>
         </AllItems>
         <ResetButton
           game={1}
