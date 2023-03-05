@@ -10,8 +10,8 @@ export const ArtifactContainer = styled(ItemCollection)`
 
 export const ArtifactWrapper = styled.div`
   height: 133px;
-  position: relative;
   margin-top: 0.5rem;
+  position: relative;
   width: 111px;
 `;
 
@@ -27,4 +27,13 @@ export const Artifact = styled.div<{
   height: ${({ dimensions }) => dimensions[3]}px;
   background-image: ${({ artifactName, collected }) =>
     `url(/prime-1/${artifactName}${collected ? "_c" : "_u"}.png)`};
+    cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+  }
+  &:focus {
+    transform: scale(1.1);
+    border: none;
+    outline: none;
+  }
 `;

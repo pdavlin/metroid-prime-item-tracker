@@ -1,4 +1,4 @@
-import { ItemCollection, ItemGrid, GameItem } from "./styled/CommonComponents";
+import { ItemCollection, ItemGrid, GameItem, ItemButton } from "./styled/CommonComponents";
 import { Inter } from "@next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -37,13 +37,14 @@ const UpgradeGrid = ({
       <h2 className={inter.className}>{title}</h2>
       <ItemGrid columns={oneColumn ? 1 : upgrades.length % 5 === 0 ? 5 : 4}>
         {upgrades.map((item) => (
-          <GameItem
-            key={`mp${game}-${item}`}
-            collected={collected.includes(item)}
-            src={`/prime-${game}/${item}.png`}
-            onClick={() => handleClick(item)}
-            title={snakeToTitleCase(item)}
-          />
+          <ItemButton onClick={() => handleClick(item)}>
+            <GameItem
+              key={`mp${game}-${item}`}
+              collected={collected.includes(item)}
+              src={`/prime-${game}/${item}.png`}
+              title={snakeToTitleCase(item)}
+            />
+          </ItemButton>
         ))}
       </ItemGrid>
     </ItemCollection>

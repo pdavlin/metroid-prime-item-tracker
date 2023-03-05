@@ -7,7 +7,6 @@ import { use, useEffect, useState } from "react";
 import {
   AllItems,
   ExpansionCollection,
-
 } from "../../components/styled/CommonComponents";
 import {
   Artifact,
@@ -107,13 +106,17 @@ export default function Prime1Tracker() {
       </Head>
       <main className={styles.main}>
         <AllItems isHorizontal={(dimension as string)?.includes("horizontal")}>
-          <ArtifactContainer isHorizontal={(dimension as string)?.includes("horizontal")}>
+          <ArtifactContainer
+            isHorizontal={(dimension as string)?.includes("horizontal")}
+          >
             <h2 className={inter.className}>Artifacts</h2>
             <ArtifactWrapper>
               {Object.entries(artifacts).map(
                 ([artifactName, artifactLocations]) => (
                   <Artifact
                     key={`artifact-${artifactName}`}
+                    role="button"
+                    tabIndex={0}
                     artifactName={artifactName}
                     dimensions={artifactLocations}
                     collected={collected.includes(artifactName)}
@@ -123,6 +126,16 @@ export default function Prime1Tracker() {
                           collected.filter((i) => i !== artifactName)
                         );
                       else setCollected([...collected, artifactName]);
+                    }}
+                    onKeyUp={(e) => {
+                      // if key is enter or space set collected to true
+                      if (e.key === "Enter" || e.key === " ") {
+                        if (collected.includes(artifactName))
+                          setCollected(
+                            collected.filter((i) => i !== artifactName)
+                          );
+                        else setCollected([...collected, artifactName]);
+                      }
                     }}
                     title={snakeToTitleCase(artifactName)}
                   />
@@ -141,7 +154,9 @@ export default function Prime1Tracker() {
               else setCollected([...collected, item]);
             }}
           />
-          <ExpansionCollection isHorizontal={(dimension as string)?.includes("horizontal")}>
+          <ExpansionCollection
+            isHorizontal={(dimension as string)?.includes("horizontal")}
+          >
             <h2 className={inter.className}>Expansions</h2>
             {expansions.map(({ name, max, multiplier }) => (
               <ItemCounter

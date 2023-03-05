@@ -5,6 +5,7 @@ import {
   CounterContainer,
   CounterLabel,
   GameItem,
+  ItemButton,
   SubtractButton,
 } from "./styled/CommonComponents";
 
@@ -48,16 +49,15 @@ const ItemCounter = ({
     });
   }, [collected]);
 
-
   return (
     <CounterContainer>
-      <GameItem
-        collected={true}
-        src={`/prime-${game}/${itemName}.png`}
+      <ItemButton
         onClick={() => {
           collected < maxNum && setCollected(collected + 1);
         }}
-      />
+      >
+        <GameItem collected={true} src={`/prime-${game}/${itemName}.png`} />
+      </ItemButton>
       <CounterLabel className={inter.className}>
         <span>
           {itemNameMap.get(itemName)}: {collected}/{maxNum}{" "}
