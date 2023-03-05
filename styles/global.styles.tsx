@@ -1,3 +1,6 @@
+import { createGlobalStyle } from "styled-components";
+
+const GlobalStyles = createGlobalStyle`  
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -6,8 +9,7 @@
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
   --foreground-rgb: 236, 239, 244;
-  --background-start-rgb: 46, 52, 64;
-  --background-end-rgb: 46, 52, 64;
+  --background-rgb: 46, 52, 64;
 }
 
 * {
@@ -24,15 +26,8 @@ body {
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: rgb(var(--background-rgb));
 }
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
+`;
+
+export default GlobalStyles;

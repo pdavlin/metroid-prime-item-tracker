@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { Inter } from "@next/font/google";
-import styles from "@/styles/Home.module.css";
 import ItemCounter from "@/components/ItemCounter";
 import useGlobalState, { initialState } from "@/hooks/useGlobalState";
 import { use, useEffect, useState } from "react";
@@ -104,7 +103,7 @@ export default function Prime1Tracker() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
+      <main>
         <AllItems isHorizontal={(dimension as string)?.includes("horizontal")}>
           <ArtifactContainer
             isHorizontal={(dimension as string)?.includes("horizontal")}
