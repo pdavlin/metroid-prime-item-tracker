@@ -39,7 +39,6 @@ const ItemCounter = ({
   const [collected, setCollected] = useState(state[`prime${game}`][itemName]);
 
   useEffect(() => {
-    console.log(`${itemName} changed to ${state[itemName]}`);
     setCollected(state[`prime${game}`][itemName]);
   }, [state[`prime${game}`][itemName]]);
 

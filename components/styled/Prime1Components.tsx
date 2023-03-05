@@ -36,4 +36,8 @@ export const Artifact = styled.div<{
     border: none;
     outline: none;
   }
+  &:focus:not(:focus-visible) {
+    border: none;
+    transform: none;
+  }
 `;

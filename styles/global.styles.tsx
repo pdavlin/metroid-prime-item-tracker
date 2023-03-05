@@ -1,4 +1,9 @@
 import { createGlobalStyle } from "styled-components";
+import Color from "colorjs.io";
+
+// https://oklch.com/
+const bgColor = new Color("oklch(32.44% 0.023 264.18)").to("hsl").toString();
+const fgColor = new Color("oklch(95.13% 0.007 260.73)").to("hsl").toString();
 
 const GlobalStyles = createGlobalStyle`  
 :root {
@@ -25,8 +30,8 @@ body {
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
+  color: ${fgColor};
+  background: ${bgColor};
 }
 `;
 

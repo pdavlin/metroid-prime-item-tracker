@@ -91,7 +91,6 @@ export default function Prime1Tracker() {
 
   useEffect(() => {
     if (JSON.stringify(state) !== JSON.stringify(initialState)) {
-      console.log("changing local storage");
       localStorage.setItem("prime1", JSON.stringify(state.prime1));
     }
   }, [state.prime1]);

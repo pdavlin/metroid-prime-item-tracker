@@ -16,6 +16,7 @@ export const ItemButton = styled.button`
   }
   &:focus:not(:focus-visible) {
     border: none;
+    transform: none;
   }
 `;
 

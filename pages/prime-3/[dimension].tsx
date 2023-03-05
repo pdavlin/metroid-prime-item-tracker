@@ -69,7 +69,6 @@ export default function Home() {
   const [collected, setCollected] = useState(state.prime3.collected);
   const router = useRouter();
   const { dimension } = router.query;
-  console.log(dimension);
 
   useEffect(() => {
     if (typeof localStorage.getItem("prime3") === "string") {
@@ -87,7 +86,6 @@ export default function Home() {
 
   useEffect(() => {
     if (JSON.stringify(state) !== JSON.stringify(initialState)) {
-      console.log("changing local storage");
       localStorage.setItem("prime3", JSON.stringify(state.prime3));
     }
   }, [state.prime3]);

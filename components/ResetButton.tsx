@@ -10,7 +10,6 @@ const ResetButton = ({ game, handleClick }: ResetButtonProps) => {
   return (
     <button
       onClick={() => {
-        console.log(JSON.parse(JSON.stringify(initialState)));
         dispatch((state) => {
           if (game === 1) {
             state.prime1.collected = ["initial"];
